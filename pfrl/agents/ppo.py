@@ -671,7 +671,6 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
         return loss
 
     def batch_act(self, batch_obs, env=None):
-        print(env)
         if self.training:
             return self._batch_act_train(batch_obs, env=env)
         else:
