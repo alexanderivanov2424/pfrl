@@ -9,7 +9,7 @@ from pfrl.initializers import init_xavier_uniform
 from pfrl.nn import EmpiricalNormalization
 from pfrl.env import VectorEnv, Env
 
-class RNDModel(nn.Module):
+class RNDModel(torch.nn.Module):
     """
     Torch RND architecture taken from https://github.com/jcwleo/random-network-distillation-pytorch/blob/master/model.py
     """
