@@ -670,11 +670,11 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
 
         return loss
 
-    def batch_act(self, batch_obs):
+    def batch_act(self, batch_obs, env=None):
         if self.training:
-            return self._batch_act_train(batch_obs)
+            return self._batch_act_train(batch_obs, env=env)
         else:
-            return self._batch_act_eval(batch_obs)
+            return self._batch_act_eval(batch_obs, env=env)
 
     def batch_observe(self, batch_obs, batch_reward, batch_done, batch_reset):
         if self.training:
@@ -682,7 +682,7 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
         else:
             self._batch_observe_eval(batch_obs, batch_reward, batch_done, batch_reset)
 
-    def _batch_act_eval(self, batch_obs):
+    def _batch_act_eval(self, batch_obs, env=None):
         assert not self.training
         b_state = self.batch_states(batch_obs, self.device, self.phi)
 
@@ -698,12 +698,16 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
                 action_distrib, _ = self.model(b_state)
             if self.act_deterministically:
                 action = mode_of_distribution(action_distrib).cpu().numpy()
+                if env != None and not env.action_space.contains(action):
+                    return env.action_space.sample()
             else:
                 action = action_distrib.sample().cpu().numpy()
-
+                if env != None:
+                    while not env.action_space.contains(action):
+                        action = action_distrib.sample().cpu().numpy()
         return action
 
-    def _batch_act_train(self, batch_obs):
+    def _batch_act_train(self, batch_obs, env=None):
         assert self.training
         b_state = self.batch_states(batch_obs, self.device, self.phi)
 
@@ -731,6 +735,9 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
             else:
                 action_distrib, batch_value = self.model(b_state)
             batch_action = action_distrib.sample().cpu().numpy()
+            if env != None:
+                while not env.action_space.contains(batch_action):
+                    batch_action = action_distrib.sample().cpu().numpy()
             self.entropy_record.extend(action_distrib.entropy().cpu().numpy())
             self.value_record.extend(batch_value.cpu().numpy())
 
