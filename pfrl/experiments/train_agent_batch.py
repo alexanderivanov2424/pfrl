@@ -71,7 +71,7 @@ def train_agent_batch(
                 action_spaces = env.get_action_spaces()
                 print(action_spaces)
                 print(action_spaces[0].available_actions())
-                valid_actions = torch.tensor([torch.tensor(action_space.available_actions()) for action_space in action_spaces])
+                valid_actions = np.array([action_space.available_actions() for action_space in action_spaces])
             print(valid_actions)
             # a_t
             actions = agent.batch_act(obss, valid_actions)
