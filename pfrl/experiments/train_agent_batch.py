@@ -64,15 +64,10 @@ def train_agent_batch(
     eval_stats_history = []  # List of evaluation episode stats dict
     try:
         while True:
-            print("Enter Loop")
             valid_actions = None
             if check_valid_actions:
-                print("Inside if")
                 action_spaces = env.get_action_spaces()
-                print(action_spaces)
-                print(action_spaces[0].available_actions())
                 valid_actions = np.array([action_space.available_actions() for action_space in action_spaces])
-            print(valid_actions)
             # a_t
             actions = agent.batch_act(obss, valid_actions)
             # o_{t+1}, r_{t+1}
