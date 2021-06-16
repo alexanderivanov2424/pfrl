@@ -733,6 +733,8 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
                 )
             else:
                 action_distrib, batch_value = self.model(b_state)
+
+            print(valid_actions, action_distrib)
             if valid_actions is not None:
                 action_distrib[valid_actions] = 0
             batch_action = action_distrib.sample().cpu().numpy()
