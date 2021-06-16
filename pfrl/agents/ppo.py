@@ -671,6 +671,8 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
         return loss
 
     def batch_act(self, batch_obs, valid_actions=None):
+        if valid_actions is not None:
+            valid_actions = torch.from_numpy(valid_actions)
         if self.training:
             return self._batch_act_train(batch_obs, valid_actions)
         else:
