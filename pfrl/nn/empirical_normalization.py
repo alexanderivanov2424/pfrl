@@ -60,7 +60,6 @@ class EmpiricalNormalization(nn.Module):
 
     def experience(self, x):
         """Learn input values without computing the output values of them"""
-        x = torch.from_numpy(x)
         if self.until is not None and self.count >= self.until:
             return
 
@@ -72,7 +71,7 @@ class EmpiricalNormalization(nn.Module):
         rate = count_x / self.count.float()
         assert rate > 0
         assert rate <= 1
-
+        print(type(x))
         var_x, mean_x = torch.var_mean(
             x, self.batch_axis, keepdim=True, unbiased=False
         )
