@@ -69,6 +69,8 @@ def train_agent_batch(
             if check_valid_actions:
                 print("Inside if")
                 action_spaces = env.get_action_spaces()
+                print(action_spaces)
+                print(actions_spaces[0].available_actions())
                 valid_actions = torch.tensor([torch.tensor(action_space.available_actions()) for action_space in action_spaces])
             print(valid_actions)
             # a_t
