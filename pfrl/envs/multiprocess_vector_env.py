@@ -68,6 +68,8 @@ See https://github.com/numpy/numpy/issues/12793 for details.
         self.closed = False
 
     def get_action_spaces(self):
+        for remote in self.remotes:
+            remote.send(("get_spaces", None))
         return [remote.recv()[0] for remote in self.remotes]
 
     def __del__(self):
