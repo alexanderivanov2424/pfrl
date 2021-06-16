@@ -736,8 +736,10 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
             else:
                 action_distrib, batch_value = self.model(b_state)
 
+            print(valid_actions.numpy(), action_distrib.probs.numpy())
             if valid_actions is not None:
                 action_distrib = torch.distributions.Categorical(torch.mul(action_distrib.probs, valid_actions))
+            print(action_distrib.probs.numpy())
             batch_action = action_distrib.sample().cpu().numpy()
             self.entropy_record.extend(action_distrib.entropy().cpu().numpy())
             self.value_record.extend(batch_value.cpu().numpy())
