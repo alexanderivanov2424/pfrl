@@ -60,7 +60,7 @@ class EmpiricalNormalization(nn.Module):
 
     def experience(self, x):
         """Learn input values without computing the output values of them"""
-
+        x = torch.from_numpy(x)
         if self.until is not None and self.count >= self.until:
             return
 
