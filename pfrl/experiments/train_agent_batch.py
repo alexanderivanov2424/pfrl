@@ -64,8 +64,11 @@ def train_agent_batch(
     eval_stats_history = []  # List of evaluation episode stats dict
     try:
         while True:
+            valid_actions = None
+            if check_valid_actions:
+                valid_actions = np.where(env.action_space.available_actions())[0]
             # a_t
-            actions = agent.batch_act(obss, env.action_space if check_valid_actions else None)
+            actions = agent.batch_act(obss, valid_actions)
             # o_{t+1}, r_{t+1}
             obss, rs, dones, infos = env.step(actions)
             episode_r += rs
