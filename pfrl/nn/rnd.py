@@ -150,7 +150,7 @@ class RND(torch.nn.Module):
         elif isinstance(env, (gym.Env, Env)):
             for _ in range(self.init_steps):
                 next_state, _, _, _ = env.step(env.action_space.sample())
-                next_state = torch.from_numpy(next_state.__array__(dtype=torch.get_default_dtype())).to(self.device)
+                next_state = torch.from_numpy(next_state.__array__(dtype=float)).to(self.device)
                 self.obs_normalizer(next_state)
         else:
             raise ValueError("{} env type not recognized".format(type(env)))
