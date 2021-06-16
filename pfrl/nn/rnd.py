@@ -2,13 +2,17 @@ from copy import deepcopy
 from logging import getLogger
 
 import torch
-from torch import nn
+import torch.nn as nn
 import numpy as np
 import gym
 
 from pfrl.initializers import init_xavier_uniform
 from pfrl.nn import EmpiricalNormalization
 from pfrl.env import VectorEnv, Env
+
+class Flatten(nn.Module):
+    def forward(self, input):
+        return input.view(input.size(0), -1)
 
 class RNDModel(torch.nn.Module):
     """
