@@ -3,6 +3,7 @@ from logging import getLogger
 
 import torch
 import torch.nn as nn
+from torch.nn import init
 import numpy as np
 import gym
 
