@@ -156,7 +156,7 @@ class RND(torch.nn.Module):
             raise ValueError("{} env type not recognized".format(type(env)))
 
     def forward(self, states, update_params=False, log=True):
-        states.__array__(dtype=float)
+        states = np.array(states, dtype=float)
         states = self.obs_normalizer(states)
 
         predicted_vector = self.predictor(states)
