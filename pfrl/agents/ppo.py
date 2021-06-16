@@ -734,9 +734,8 @@ class PPO(agent.AttributeSavingMixin, agent.BatchAgent):
             else:
                 action_distrib, batch_value = self.model(b_state)
 
-            print(valid_actions, action_distrib)
             if valid_actions is not None:
-                action_distrib[valid_actions] = 0
+                action_distrib *= valid_actions
             batch_action = action_distrib.sample().cpu().numpy()
             self.entropy_record.extend(action_distrib.entropy().cpu().numpy())
             self.value_record.extend(batch_value.cpu().numpy())

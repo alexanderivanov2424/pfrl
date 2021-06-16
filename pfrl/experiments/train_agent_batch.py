@@ -66,7 +66,7 @@ def train_agent_batch(
         while True:
             valid_actions = None
             if check_valid_actions:
-                valid_actions = np.where(env.action_space.available_actions())[0]
+                valid_actions = env.action_space.available_actions()
             # a_t
             actions = agent.batch_act(obss, valid_actions)
             # o_{t+1}, r_{t+1}
