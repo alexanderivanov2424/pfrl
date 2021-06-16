@@ -67,6 +67,9 @@ See https://github.com/numpy/numpy/issues/12793 for details.
         self.action_space, self.observation_space = self.remotes[0].recv()
         self.closed = False
 
+    def get_action_spaces(self):
+        return [remote.recv()[0] for remote in self.remotes]
+
     def __del__(self):
         if not self.closed:
             self.close()
