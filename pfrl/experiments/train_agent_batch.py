@@ -65,7 +65,7 @@ def train_agent_batch(
     try:
         while True:
             # a_t
-            actions = agent.batch_act(obss, env= (env if check_valid_actions else None))
+            actions = agent.batch_act(obss, env.action_space if check_valid_actions else None)
             # o_{t+1}, r_{t+1}
             obss, rs, dones, infos = env.step(actions)
             episode_r += rs
