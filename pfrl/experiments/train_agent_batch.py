@@ -64,8 +64,10 @@ def train_agent_batch(
     eval_stats_history = []  # List of evaluation episode stats dict
     try:
         while True:
+            print("Enter Loop")
             valid_actions = None
             if check_valid_actions:
+                print("Inside if")
                 action_spaces = env.get_action_spaces()
                 valid_actions = torch.tensor([torch.tensor(action_space.available_actions()) for action_space in action_spaces])
             print(valid_actions)
