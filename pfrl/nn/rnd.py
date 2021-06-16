@@ -2,6 +2,7 @@ from copy import deepcopy
 from logging import getLogger
 
 import torch
+from torch import nn
 import numpy as np
 import gym
 
