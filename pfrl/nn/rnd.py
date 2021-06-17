@@ -157,6 +157,7 @@ class RND(torch.nn.Module):
 
     def forward(self, states, update_params=False, log=True):
         states = np.array([s.__array__(dtype=float) for s in states])
+        print("obs_norm", states[0].shape, len(states))
         states = self.obs_normalizer(states)
 
         predicted_vector = self.predictor(states)
