@@ -75,6 +75,8 @@ class EmpiricalNormalization(nn.Module):
         assert rate > 0
         assert rate <= 1
 
+        print(x.shape)
+        print(self._mean)
         var_x, mean_x = torch.var_mean(
             x, self.batch_axis, keepdim=True, unbiased=False
         )
