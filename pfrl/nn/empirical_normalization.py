@@ -63,8 +63,8 @@ class EmpiricalNormalization(nn.Module):
         if self.until is not None and self.count >= self.until:
             return
 
-        if type(x) is np.ndarray:
-            x = torch.from_numpy(x).to(self.device)
+        # if type(x) is np.ndarray:
+        #     x = torch.from_numpy(x)
 
         count_x = x.shape[self.batch_axis]
         if count_x == 0:
