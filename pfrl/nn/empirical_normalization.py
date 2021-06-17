@@ -64,7 +64,7 @@ class EmpiricalNormalization(nn.Module):
             return
 
         if type(x) is np.ndarray:
-            x = torch.from_numpy(x)
+            x = torch.from_numpy(x).to(self.device)
 
         count_x = x.shape[self.batch_axis]
         if count_x == 0:
