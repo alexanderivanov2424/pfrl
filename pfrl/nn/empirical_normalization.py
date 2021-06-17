@@ -63,6 +63,9 @@ class EmpiricalNormalization(nn.Module):
         if self.until is not None and self.count >= self.until:
             return
 
+        if type(x) is np.ndarray:
+            x = torch.from_numpy(x)
+
         count_x = x.shape[self.batch_axis]
         if count_x == 0:
             return
@@ -71,9 +74,9 @@ class EmpiricalNormalization(nn.Module):
         rate = count_x / self.count.float()
         assert rate > 0
         assert rate <= 1
-        print(type(x))
+
         var_x, mean_x = torch.var_mean(
-            x, self.batch_axis, keepdim=True, unbiased=False
+            x, (self.batch_axis,), keepdim=True, unbiased=False
         )
         delta_mean = mean_x - self._mean
         self._mean += rate * delta_mean
