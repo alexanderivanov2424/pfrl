@@ -29,7 +29,7 @@ class RNDModel(torch.nn.Module):
         feature_output = 7 * 7 * 64
         self.predictor = nn.Sequential(
             nn.Conv2d(
-                in_channels=1,
+                in_channels=4,
                 out_channels=32,
                 kernel_size=8,
                 stride=4),
@@ -56,7 +56,7 @@ class RNDModel(torch.nn.Module):
 
         self.target = nn.Sequential(
             nn.Conv2d(
-                in_channels=1,
+                in_channels=4,
                 out_channels=32,
                 kernel_size=8,
                 stride=4),
