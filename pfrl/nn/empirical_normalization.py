@@ -76,7 +76,7 @@ class EmpiricalNormalization(nn.Module):
         assert rate <= 1
 
         var_x, mean_x = torch.var_mean(
-            x, (self.batch_axis,), keepdim=True, unbiased=False
+            x, self.batch_axis, keepdim=True, unbiased=False
         )
         delta_mean = mean_x - self._mean
         self._mean += rate * delta_mean
