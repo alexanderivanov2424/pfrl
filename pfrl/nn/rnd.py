@@ -156,7 +156,7 @@ class RND(torch.nn.Module):
             raise ValueError("{} env type not recognized".format(type(env)))
 
     def forward(self, states, update_params=False, log=True):
-        states = torch.from_numpy(np.array([[s.__array__(dtype=float) for s in states]])).to(self.device)
+        states = torch.cat([torch.from_numpy(s.__array__(dtype=float)) for s in states]).to(self.device)
         print("obs_norm", states[0].shape, len(states))
         states = self.obs_normalizer(states)
 
