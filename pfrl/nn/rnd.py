@@ -145,7 +145,7 @@ class RND(torch.nn.Module):
         if isinstance(env, VectorEnv):
             for _ in range(self.init_steps):
                 next_states, _, _, _ = env.step([env.action_space.sample() for _ in range(env.num_envs)])
-                next_states = torch.cat(list(map(torch.from_numpy, next_states))).to(self.device)
+                next_states = torch.cat(list(*map(torch.from_numpy, next_states))).to(self.device)
                 self.obs_normalizer(next_states)
         elif isinstance(env, (gym.Env, Env)):
             for _ in range(self.init_steps):
