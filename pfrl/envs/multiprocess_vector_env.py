@@ -32,8 +32,10 @@ def worker(remote, env_fn):
                 remote.send(env.seed(data))
             else:
                 raise NotImplementedError
+    except Exception as e:
+        print(e)
     finally:
-        Print("WORKER CLOSED")
+        print("WORKER CLOSED")
         env.close()
 
 
