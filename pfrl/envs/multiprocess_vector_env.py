@@ -87,9 +87,12 @@ See https://github.com/numpy/numpy/issues/12793 for details.
 
     def step(self, actions):
         self._assert_not_closed()
+        print("Step Start")
         for remote, action in zip(self.remotes, actions):
             remote.send(("step", action))
+        print("step sent")
         results = [remote.recv() for remote in self.remotes]
+        print("step recv")
         self.last_obs, rews, dones, infos = zip(*results)
         return self.last_obs, rews, dones, infos
 
