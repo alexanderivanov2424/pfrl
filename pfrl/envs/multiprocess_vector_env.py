@@ -12,31 +12,29 @@ def worker(remote, env_fn):
     # Ignore CTRL+C in the worker process
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     env = env_fn()
-    try:
-        while True:
-            cmd, data = remote.recv()
-            if cmd == "step":
-                ob, reward, done, info = env.step(data)
-                remote.send((ob, reward, done, info))
-            elif cmd == "reset":
-                ob = env.reset()
-                remote.send(ob)
-            elif cmd == "close":
-                remote.close()
-                break
-            elif cmd == "get_spaces":
-                remote.send((env.action_space, env.observation_space))
-            elif cmd == "spec":
-                remote.send(env.spec)
-            elif cmd == "seed":
-                remote.send(env.seed(data))
-            else:
-                raise NotImplementedError
-    except Exception as e:
-        print(e)
-    finally:
-        print("WORKER CLOSED")
-        env.close()
+    # try:
+    while True:
+        cmd, data = remote.recv()
+        if cmd == "step":
+            ob, reward, done, info = env.step(data)
+            remote.send((ob, reward, done, info))
+        elif cmd == "reset":
+            ob = env.reset()
+            remote.send(ob)
+        elif cmd == "close":
+            remote.close()
+            break
+        elif cmd == "get_spaces":
+            remote.send((env.action_space, env.observation_space))
+        elif cmd == "spec":
+            remote.send(env.spec)
+        elif cmd == "seed":
+            remote.send(env.seed(data))
+        else:
+            raise NotImplementedError
+    # finally:
+    #     print("WORKER CLOSED")
+        # env.close()
 
 
 class MultiprocessVectorEnv(pfrl.env.VectorEnv):
