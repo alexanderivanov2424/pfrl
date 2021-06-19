@@ -159,15 +159,17 @@ class RND(torch.nn.Module):
         states = torch.cat([torch.from_numpy(s.__array__(dtype=float)) for s in states]).to(self.device)
         states = self.obs_normalizer(states)
 
+        print("pred")
         predicted_vector = self.predictor(torch.unsqueeze(states,dim=0))
         target_vector = self.target(torch.unsqueeze(states,dim=0))
 
+        print("reward")
         intrinsic_reward = torch.nn.functional.mse_loss(predicted_vector, target_vector, reduction='mean')
         intrinsic_reward = intrinsic_reward.unsqueeze(0) # dim: 1,
         intrinsic_reward = self.reward_normalizer(intrinsic_reward)
 
         loss = intrinsic_reward.mean(dim=0)
-
+        print("log")
         if log:
             self.logger.debug('int_rew: %f, rnd_loss: %f, mean: %f, std: %f',
                 loss.item(),
