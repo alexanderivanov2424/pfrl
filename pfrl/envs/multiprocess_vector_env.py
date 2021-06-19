@@ -15,9 +15,10 @@ def worker(remote, env_fn):
     # try:
     while True:
         cmd, data = remote.recv()
-        print(cmd, data)
         if cmd == "step":
+            print("env_step")
             ob, reward, done, info = env.step(data)
+            print("env_step_finish")
             remote.send((ob, reward, done, info))
         elif cmd == "reset":
             ob = env.reset()
@@ -87,12 +88,9 @@ See https://github.com/numpy/numpy/issues/12793 for details.
 
     def step(self, actions):
         self._assert_not_closed()
-        print("Step Start")
         for remote, action in zip(self.remotes, actions):
             remote.send(("step", action))
-        print("step sent")
         results = [remote.recv() for remote in self.remotes]
-        print("step recv")
         self.last_obs, rews, dones, infos = zip(*results)
         return self.last_obs, rews, dones, infos
 
