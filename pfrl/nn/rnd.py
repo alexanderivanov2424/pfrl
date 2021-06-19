@@ -162,6 +162,7 @@ class RND(torch.nn.Module):
 
         print("pred")
         predicted_vector = self.predictor(torch.unsqueeze(states,dim=0))
+        print('target')
         target_vector = self.target(torch.unsqueeze(states,dim=0))
 
         print("reward")
