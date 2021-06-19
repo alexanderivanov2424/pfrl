@@ -161,7 +161,8 @@ class RND(torch.nn.Module):
         states = self.obs_normalizer(states)
 
         print("pred")
-        import pdb; pdb.set_trace()
+        print(states.shape, type(states))
+        print(states.device)
         predicted_vector = self.predictor(torch.unsqueeze(states,dim=0))
         print('target')
         target_vector = self.target(torch.unsqueeze(states,dim=0))
