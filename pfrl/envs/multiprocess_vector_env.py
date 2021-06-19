@@ -33,6 +33,7 @@ def worker(remote, env_fn):
             else:
                 raise NotImplementedError
     finally:
+        Print("WORKER CLOSED")
         env.close()
 
 

@@ -64,7 +64,6 @@ def train_agent_batch(
     eval_stats_history = []  # List of evaluation episode stats dict
     try:
         while True:
-            print("STEP")
             valid_actions = None
             if check_valid_actions:
                 action_spaces = env.get_action_spaces()
@@ -76,7 +75,6 @@ def train_agent_batch(
             episode_r += rs
             episode_len += 1
 
-            print("MASK")
             # Compute mask for done and reset
             if max_episode_len is None:
                 resets = np.zeros(num_envs, dtype=bool)
@@ -102,7 +100,6 @@ def train_agent_batch(
             episode_idx += end
             recent_returns.extend(episode_r[end])
 
-            print("CHECKPOINT")
             for _ in range(num_envs):
                 t += 1
                 if checkpoint_freq and t % checkpoint_freq == 0:
@@ -111,7 +108,6 @@ def train_agent_batch(
                 for hook in step_hooks:
                     hook(env, agent, t)
 
-            print("LOG")
             if (
                 log_interval is not None
                 and t >= log_interval
