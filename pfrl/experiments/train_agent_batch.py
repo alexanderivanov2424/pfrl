@@ -64,6 +64,7 @@ def train_agent_batch(
     eval_stats_history = []  # List of evaluation episode stats dict
     try:
         while True:
+            print("STEP")
             valid_actions = None
             if check_valid_actions:
                 action_spaces = env.get_action_spaces()
