@@ -158,7 +158,7 @@ class RND(torch.nn.Module):
     def forward(self, states, update_params=False, log=True):
         print('rnd entry')
         states = torch.cat([torch.from_numpy(s.__array__(dtype=double)) for s in states]).to(self.device)
-        states = self.obs_normalizer(states)
+        states = self.obs_normalizer(states).double()
 
         print("pred")
         print(states.shape, type(states), states.device)
