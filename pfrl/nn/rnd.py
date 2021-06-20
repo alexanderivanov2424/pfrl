@@ -162,9 +162,9 @@ class RND(torch.nn.Module):
 
         print("pred")
         print(states.shape, type(states), states.device)
-        predicted_vector = self.predictor(torch.unsqueeze(states,dim=0))
+        predicted_vector = self.predictor(torch.unsqueeze(states,dim=0).double())
         print('target')
-        target_vector = self.target(torch.unsqueeze(states,dim=0))
+        target_vector = self.target(torch.unsqueeze(states,dim=0).double())
 
         print("reward")
         intrinsic_reward = torch.nn.functional.mse_loss(predicted_vector, target_vector, reduction='mean')
