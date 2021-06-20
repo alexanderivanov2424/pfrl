@@ -145,24 +145,23 @@ class RND(torch.nn.Module):
         if isinstance(env, VectorEnv):
             for _ in range(self.init_steps):
                 next_states, _, _, _ = env.step([env.action_space.sample() for _ in range(env.num_envs)])
-                next_states = torch.cat([torch.from_numpy(s.__array__(dtype=float)) for s in next_states]).to(self.device)
+                next_states = torch.cat([torch.from_numpy(s.__array__(dtype=double)) for s in next_states]).to(self.device)
                 self.obs_normalizer(next_states)
         elif isinstance(env, (gym.Env, Env)):
             for _ in range(self.init_steps):
                 next_state, _, _, _ = env.step(env.action_space.sample())
-                next_state = torch.from_numpy(next_state.__array__(dtype=float)).to(self.device)
+                next_state = torch.from_numpy(next_state.__array__(dtype=double)).to(self.device)
                 self.obs_normalizer(next_state)
         else:
             raise ValueError("{} env type not recognized".format(type(env)))
 
     def forward(self, states, update_params=False, log=True):
         print('rnd entry')
-        states = torch.cat([torch.from_numpy(s.__array__(dtype=float)) for s in states]).to(self.device)
+        states = torch.cat([torch.from_numpy(s.__array__(dtype=double)) for s in states]).to(self.device)
         states = self.obs_normalizer(states)
 
         print("pred")
-        print(states.shape, type(states))
-        print(states.device)
+        print(states.shape, type(states), states.device)
         predicted_vector = self.predictor(torch.unsqueeze(states,dim=0))
         print('target')
         target_vector = self.target(torch.unsqueeze(states,dim=0))
