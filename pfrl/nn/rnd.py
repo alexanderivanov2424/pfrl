@@ -114,6 +114,9 @@ class RND(torch.nn.Module):
         self.target = model.predictor
         self.predictor = model.target
 
+        self.target.float()
+        self.predictor.float()
+
         self.target.apply(init_xavier_uniform)
         self.predictor.apply(init_xavier_uniform)
 
