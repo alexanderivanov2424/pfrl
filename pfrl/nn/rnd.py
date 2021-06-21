@@ -159,23 +159,18 @@ class RND(torch.nn.Module):
             raise ValueError("{} env type not recognized".format(type(env)))
 
     def forward(self, states, update_params=False, log=True):
-        print('rnd entry')
         states = torch.cat([torch.from_numpy(s.__array__(dtype=float)) for s in states]).to(self.device)
         states = self.obs_normalizer(states).float()
+        states = states.clone()
 
-        print("pred")
-        print(states.shape, type(states), states.device)
         predicted_vector = self.predictor(torch.unsqueeze(states,dim=0).float())
-        print('target')
         target_vector = self.target(torch.unsqueeze(states,dim=0).float())
 
-        print("reward")
         intrinsic_reward = torch.nn.functional.mse_loss(predicted_vector, target_vector, reduction='mean')
         intrinsic_reward = intrinsic_reward.unsqueeze(0) # dim: 1,
         intrinsic_reward = self.reward_normalizer(intrinsic_reward)
 
         loss = intrinsic_reward.mean(dim=0)
-        print("log")
         if log:
             self.logger.debug('int_rew: %f, rnd_loss: %f, mean: %f, std: %f',
                 loss.item(),
