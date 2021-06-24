@@ -180,9 +180,9 @@ class RND(torch.nn.Module):
             )
 
         if update_params:
-            self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
+            self.optimizer.zero_grad()
             loss.detach()
 
         return intrinsic_reward.detach()
